@@ -13,7 +13,7 @@ import java.util.List;
 @RequiredArgsConstructor
 public class UserService {
 
-    private UserRepository repository;
+    private final UserRepository repository;
 
     @Transactional
     public User create(User user){
@@ -39,7 +39,7 @@ public class UserService {
     public User update(Long id, User userUpdated){
         User user = repository.findById(id).orElseThrow(() -> new RuntimeException("Not found"));
 
-        BeanUtils.copyProperties(user, userUpdated, "id", "creationDate", "lastUpdateDate");
+        BeanUtils.copyProperties(userUpdated, user, "id", "creationDate", "lastUpdateDate");
 
         return user;
     }

@@ -5,10 +5,13 @@ import br.com.auth.entities.enums.UserType;
 import com.fasterxml.jackson.annotation.JsonFormat;
 import jakarta.persistence.*;
 import jakarta.validation.constraints.NotBlank;
+import jakarta.validation.constraints.NotNull;
 import jakarta.validation.constraints.Size;
 import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.NoArgsConstructor;
+import org.hibernate.annotations.CreationTimestamp;
+import org.hibernate.annotations.UpdateTimestamp;
 import org.springframework.format.annotation.DateTimeFormat;
 
 import java.time.LocalDateTime;
@@ -44,12 +47,12 @@ public class User {
     @Column(name = "full_name")
     private String fullName;
 
-    @NotBlank
+    @NotNull
     @Enumerated(EnumType.STRING)
     @Column(name = "user_status")
     private UserStatus userStatus;
 
-    @NotBlank
+    @NotNull
     @Enumerated(EnumType.STRING)
     @Column(name = "user_type")
     private UserType userType;
@@ -63,14 +66,25 @@ public class User {
     @Column(name = "image_url")
     private String imageUrl;
 
-    @NotBlank
+    @NotNull
     @DateTimeFormat(pattern = "dd-MM-yyyy HH:mm:ss")
     @Column(name = "creation_date")
     private LocalDateTime creationDate;
 
-    @NotBlank
+    @NotNull
     @DateTimeFormat(pattern = "dd-MM-yyyy HH:mm:ss")
     @Column(name = "last_update_date")
     private LocalDateTime lastUpdateDate;
+
+    @PrePersist
+    public void prePersist() {
+        creationDate = LocalDateTime.now();
+        lastUpdateDate = LocalDateTime.now();
+    }
+
+    @PreUpdate
+    public void preUpdate() {
+        lastUpdateDate = LocalDateTime.now();
+    }
 
 }
