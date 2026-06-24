@@ -1,5 +1,6 @@
 package br.com.auth.controllers;
 
+import br.com.auth.dtos.UpdatePasswordRequest;
 import br.com.auth.entities.User;
 import br.com.auth.services.UserService;
 import lombok.RequiredArgsConstructor;
@@ -14,13 +15,6 @@ import java.util.List;
 public class UserController {
 
     private final UserService service;
-
-    @PostMapping
-    public ResponseEntity<User> create(@RequestBody User user){
-        user = service.create(user);
-
-        return ResponseEntity.created(null).body(user);
-    }
 
     @GetMapping
     public ResponseEntity<List<User>> findAll(){
@@ -44,5 +38,12 @@ public class UserController {
         service.delete(id);
 
         return ResponseEntity.noContent().build();
+    }
+
+    @PutMapping("/{id}/password")
+    public ResponseEntity<String> updatePassword(@PathVariable("id") Long id, @RequestBody UpdatePasswordRequest password){
+
+        service.updatePassword(id, password);
+        return ResponseEntity.ok("Password updated");
     }
 }

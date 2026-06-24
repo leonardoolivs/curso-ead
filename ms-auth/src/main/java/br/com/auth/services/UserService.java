@@ -1,5 +1,6 @@
 package br.com.auth.services;
 
+import br.com.auth.dtos.UpdatePasswordRequest;
 import br.com.auth.entities.User;
 import br.com.auth.repositories.UserRepository;
 import lombok.RequiredArgsConstructor;
@@ -42,6 +43,17 @@ public class UserService {
         BeanUtils.copyProperties(userUpdated, user, "id", "creationDate", "lastUpdateDate");
 
         return user;
+    }
+
+    @Transactional
+    public void updatePassword(Long id, UpdatePasswordRequest pass){
+        User user = repository.findById(id).orElseThrow(() -> new RuntimeException("Not found"));
+
+        if(pass.getNewPassword().equals(pass.getOldPassword())){
+            throw new RuntimeException("New password needs to be different from old password.");
+        }
+
+        user.setPassword(pass.getNewPassword());
     }
 
 }
