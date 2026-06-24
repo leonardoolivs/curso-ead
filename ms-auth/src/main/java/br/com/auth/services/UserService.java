@@ -1,6 +1,7 @@
 package br.com.auth.services;
 
 import br.com.auth.dtos.UpdatePasswordRequest;
+import br.com.auth.dtos.UserRequest;
 import br.com.auth.entities.User;
 import br.com.auth.repositories.UserRepository;
 import lombok.RequiredArgsConstructor;
@@ -17,7 +18,11 @@ public class UserService {
     private final UserRepository repository;
 
     @Transactional
-    public User create(User user){
+    public User create(UserRequest request){
+        User user = new User();
+
+        BeanUtils.copyProperties(request, user);
+
         return repository.save(user);
     }
 

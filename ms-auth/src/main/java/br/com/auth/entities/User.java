@@ -2,7 +2,9 @@ package br.com.auth.entities;
 
 import br.com.auth.entities.enums.UserStatus;
 import br.com.auth.entities.enums.UserType;
+import br.com.auth.services.UserService;
 import com.fasterxml.jackson.annotation.JsonFormat;
+import com.fasterxml.jackson.annotation.JsonIgnore;
 import jakarta.persistence.*;
 import jakarta.validation.constraints.NotBlank;
 import jakarta.validation.constraints.NotNull;
@@ -38,6 +40,7 @@ public class User {
     private String email;
 
     @NotBlank
+    @JsonIgnore
     @Size(max = 50)
     @Column(name = "password")
     private String password;
@@ -78,6 +81,8 @@ public class User {
 
     @PrePersist
     public void prePersist() {
+        userStatus = UserStatus.ACTIVE;
+        userType = UserType.STUDENT;
         creationDate = LocalDateTime.now();
         lastUpdateDate = LocalDateTime.now();
     }

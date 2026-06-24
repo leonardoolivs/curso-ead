@@ -1,5 +1,6 @@
 package br.com.auth.controllers;
 
+import br.com.auth.dtos.UserRequest;
 import br.com.auth.entities.User;
 import br.com.auth.services.UserService;
 import lombok.RequiredArgsConstructor;
@@ -17,8 +18,8 @@ public class AuthController {
     private final UserService service;
 
     @PostMapping("/sign-in")
-    public ResponseEntity<User> create(@RequestBody User user){
-        user = service.create(user);
+    public ResponseEntity<User> create(@RequestBody UserRequest request){
+        User user = service.create(request);
 
         return ResponseEntity.created(null).body(user);
     }
