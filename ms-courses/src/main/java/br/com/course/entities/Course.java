@@ -36,9 +36,11 @@ public class Course {
     private LocalDateTime lastUpdateDate;
 
     @Column(name = "course_status")
+    @Enumerated(EnumType.STRING)
     private CourseStatus courseStatus;
 
     @Column(name = "course_level")
+    @Enumerated(EnumType.STRING)
     private CourseLevel courseLevel;
 
 }
