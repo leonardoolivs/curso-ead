@@ -8,6 +8,8 @@ import lombok.Data;
 import lombok.NoArgsConstructor;
 
 import java.time.LocalDateTime;
+import java.util.HashSet;
+import java.util.Set;
 
 @Data
 @Entity
@@ -42,5 +44,8 @@ public class Course {
     @Column(name = "course_level")
     @Enumerated(EnumType.STRING)
     private CourseLevel courseLevel;
+
+    @OneToMany(mappedBy = "course")
+    private Set<Module> modules = new HashSet<>();
 
 }

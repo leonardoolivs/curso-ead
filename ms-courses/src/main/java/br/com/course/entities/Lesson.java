@@ -30,4 +30,8 @@ public class Lesson {
     @Column(name = "creation_date")
     private LocalDateTime creationDate;
 
+    @ManyToOne
+    @JoinColumn(name = "module_id")
+    private Module module;
+
 }
